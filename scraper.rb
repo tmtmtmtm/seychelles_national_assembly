@@ -53,7 +53,7 @@ def scrape_mp(url)
     birth_date: datefrom(noko.xpath('.//strong[contains(.,"irth")]/following::text()').first.parent.text.strip),
     party: noko.xpath('.//strong[contains(.,"Party")]/following::text()').first.text.strip,
     email: noko.xpath('.//strong[contains(.,"Email")]/following::script').first.text.strip,
-    term: 2014,
+    term: 2011,
     source: url.to_s,
   }
 
