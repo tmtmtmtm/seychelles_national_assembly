@@ -63,6 +63,8 @@ def scrape_mp(url)
   elsif data[:role].include? 'PROPORTIONALLY ELECTED MEMBER'
     data.delete :role
     data[:constituency] = 'Proportionally Elected'
+  else 
+    data[:constituency] = 'Proportionally Elected'
   end
 
   unless data[:email].to_s.empty?
