@@ -1,0 +1,33 @@
+---
+request:
+  method: get
+  uri: http://69.36.179.203/NAS/index.php?Itemid=27&catid=73:directly-elected-members-by-constituency&id=622:hon-sultanne-jacqueline&option=com_content&view=article
+  body:
+    encoding: US-ASCII
+    string: ''
+  headers:
+    Accept-Encoding:
+    - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+    Accept:
+    - "*/*"
+    User-Agent:
+    - Ruby
+response:
+  status:
+    code: 301
+    message: Moved Permanently
+  headers:
+    Date:
+    - Tue, 13 Dec 2016 16:05:35 GMT
+    Server:
+    - Apache/2.0.52 (Red Hat)
+    Location:
+    - http://68.169.37.149/NAS/?option=com_content&view=article&id=622:hon-sultanne-jacqueline&catid=73:directly-elected-members-by-constituency&Itemid=27
+    Content-Length:
+    - '452'
+    Content-Type:
+    - text/html; charset=iso-8859-1
+  body:
+    encoding: UTF-8
+  http_version: 
+recorded_at: Tue, 13 Dec 2016 16:05:35 GMT
