@@ -2,7 +2,6 @@
 # encoding: utf-8
 
 require 'date'
-require 'execjs'
 require 'nokogiri'
 require 'open-uri'
 require 'pry'
@@ -31,6 +30,8 @@ class MembersPage < Scraped::HTML
 end
 
 class MemberPage < Scraped::HTML
+  require 'execjs'
+
   field :id do
     url.to_s[%r{id=(\d+)}, 1]
   end
@@ -62,8 +63,11 @@ class MemberPage < Scraped::HTML
   end
 
   field :email do
-    # TODO: ExecJS this
-    noko.xpath('.//strong[contains(.,"Email")]/following::script').first.text.strip
+    return if raw_email.to_s.empty?
+    js = "var retval = ''; " + raw_email.split('--')[1] + ";\nreturn retval"
+    js.gsub!("document.write","retval += ")
+    mailto = ExecJS.exec(js)
+    Nokogiri::HTML(mailto).css('a/@href').text.sub('mailto:','')
   end
 
   field :term do
@@ -82,6 +86,10 @@ class MemberPage < Scraped::HTML
 
   def role_and_name
     noko.css('p').map { |p| p.text.gsub(/[[:space:]]+/, ' ').strip }.reject(&:empty?).take(2)
+  end
+
+  def raw_email
+    noko.xpath('.//strong[contains(.,"Email")]/following::script').first.text.strip
   end
 end
 
@@ -107,13 +115,6 @@ def scrape_mp(url)
     data[:constituency] = 'Proportionally Elected'
   else 
     data[:constituency] = 'Proportionally Elected'
-  end
-
-  unless data[:email].to_s.empty?
-    js = "var retval = ''; " + data[:email].split('--')[1] + ";\nreturn retval"
-    js.gsub!("document.write","retval += ")
-    mailto = ExecJS.exec(js)
-    data[:email] = Nokogiri::HTML(mailto).css('a/@href').text.sub('mailto:','')
   end
 
   puts data
