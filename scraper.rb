@@ -1,5 +1,6 @@
 #!/bin/env ruby
 # encoding: utf-8
+# frozen_string_literal: true
 
 require 'date'
 require 'nokogiri'
@@ -24,11 +25,11 @@ class MemberPage < Scraped::HTML
   require 'execjs'
 
   field :id do
-    url.to_s[%r{id=(\d+)}, 1]
+    url.to_s[/id=(\d+)/, 1]
   end
 
   field :name do
-    role_and_name.last.sub('Hon. ','')
+    role_and_name.last.sub('Hon. ', '')
   end
 
   field :given_name do
@@ -51,9 +52,9 @@ class MemberPage < Scraped::HTML
   field :email do
     return if raw_email.to_s.empty?
     js = "var retval = ''; " + raw_email.split('--')[1] + ";\nreturn retval"
-    js.gsub!("document.write","retval += ")
+    js.gsub!('document.write', 'retval += ')
     mailto = ExecJS.exec(js)
-    Nokogiri::HTML(mailto).css('a/@href').text.sub('mailto:','')
+    Nokogiri::HTML(mailto).css('a/@href').text.sub('mailto:', '')
   end
 
   field :term do
@@ -66,7 +67,7 @@ class MemberPage < Scraped::HTML
 
   field :constituency do
     return 'Proportionally Elected' unless role[/ELECTED MEMBER FOR (.*)/]
-    $1.sub('THE DISTRICT OF ','')
+    Regexp.last_match(1).sub('THE DISTRICT OF ', '')
   end
 
   private
