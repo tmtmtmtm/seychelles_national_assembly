@@ -74,12 +74,5 @@ def scrape_mp(url)
   ScraperWiki.save_sqlite([:id, :term], data)
 end
 
-term = {
-  id: 2011,
-  name: '2011–2016',
-  start_date: '2011',
-}
-ScraperWiki.save_sqlite([:id], term, 'terms')
-
 scrape_list('http://69.36.179.203/index.php?option=com_content&view=section&id=14&Itemid=27')
 
