@@ -36,11 +36,6 @@ class MemberPage < Scraped::HTML
     url.to_s[%r{id=(\d+)}, 1]
   end
 
-  field :role do
-    # TODO: transform this into a constituency
-    role_and_name.first
-  end
-
   field :name do
     role_and_name.last
   end
@@ -78,6 +73,11 @@ class MemberPage < Scraped::HTML
     url.to_s
   end
 
+  field :constituency do
+    return 'Proportionally Elected' unless role[/ELECTED MEMBER FOR (.*)/]
+    $1.sub('THE DISTRICT OF ','')
+  end
+
   private
 
   def datefrom(date)
@@ -86,6 +86,10 @@ class MemberPage < Scraped::HTML
 
   def role_and_name
     noko.css('p').map { |p| p.text.gsub(/[[:space:]]+/, ' ').strip }.reject(&:empty?).take(2)
+  end
+
+  def role
+    role_and_name.first
   end
 
   def raw_email
@@ -104,19 +108,7 @@ def scrape_list(url)
 end
 
 def scrape_mp(url)
-  page = MemberPage.new(response: Scraped::Request.new(url: url).response)
-  data = page.to_h
-
-  if data[:role][/ELECTED MEMBER FOR (.*)/]
-    data.delete :role
-    data[:constituency] = $1.sub('THE DISTRICT OF ','')
-  elsif data[:role].include? 'PROPORTIONALLY ELECTED MEMBER'
-    data.delete :role
-    data[:constituency] = 'Proportionally Elected'
-  else 
-    data[:constituency] = 'Proportionally Elected'
-  end
-
+  data = MemberPage.new(response: Scraped::Request.new(url: url).response).to_h
   puts data
   ScraperWiki.save_sqlite([:id, :term], data)
 end
