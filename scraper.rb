@@ -6,6 +6,7 @@ require 'execjs'
 require 'nokogiri'
 require 'open-uri'
 require 'pry'
+require 'scraped'
 require 'scraperwiki'
 
 require 'open-uri/cached'
@@ -25,11 +26,19 @@ def datefrom(date)
   Date.parse(date).to_s
 end
 
+class MembersPage < Scraped::HTML
+  field :member_urls do
+    noko.css('div#ja-content td a[href*="view=article"]/@href').map(&:text).uniq.map do |link|
+      URI.join(url, link).to_s
+    end
+  end
+end
+
 def scrape_list(url)
-  noko = noko_for(url)
   count = 0
-  noko.css('div#ja-content td a[href*="view=article"]/@href').map(&:text).uniq.each do |link|
-    scrape_mp(URI.join(url, link))
+  page = MembersPage.new(response: Scraped::Request.new(url: url).response)
+  page.member_urls.each do |link|
+    scrape_mp(link)
     count += 1
   end
   puts "Added #{count}"
