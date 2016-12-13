@@ -97,21 +97,10 @@ class MemberPage < Scraped::HTML
   end
 end
 
-def scrape_list(url)
-  count = 0
-  page = MembersPage.new(response: Scraped::Request.new(url: url).response)
-  page.member_urls.each do |link|
-    scrape_mp(link)
-    count += 1
-  end
-  puts "Added #{count}"
-end
-
-def scrape_mp(url)
-  data = MemberPage.new(response: Scraped::Request.new(url: url).response).to_h
-  puts data
+url = 'http://69.36.179.203/index.php?option=com_content&view=section&id=14&Itemid=27'
+page = MembersPage.new(response: Scraped::Request.new(url: url).response)
+page.member_urls.each do |link|
+  data = MemberPage.new(response: Scraped::Request.new(url: link).response).to_h
   ScraperWiki.save_sqlite([:id, :term], data)
+  puts data
 end
-
-scrape_list('http://69.36.179.203/index.php?option=com_content&view=section&id=14&Itemid=27')
-
