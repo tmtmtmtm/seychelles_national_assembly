@@ -1,0 +1,49 @@
+---
+request:
+  method: get
+  uri: http://68.169.37.149/NAS/?Itemid=27&catid=72:proportionately-elected-members&id=371:hon-marie-antoinette-rose&option=com_content&view=article
+  body:
+    encoding: US-ASCII
+    string: ''
+  headers:
+    Accept-Encoding:
+    - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+    Accept:
+    - "*/*"
+    User-Agent:
+    - Ruby
+response:
+  status:
+    code: 200
+    message: OK
+  headers:
+    Date:
+    - Tue, 13 Dec 2016 16:02:40 GMT
+    Server:
+    - Apache/2.2.21 (Unix) mod_ssl/2.2.21 OpenSSL/0.9.8e-fips-rhel5 DAV/2 mod_bwlimited/1.4
+      mod_perl/2.0.5 Perl/v5.8.8
+    X-Powered-By:
+    - PHP/5.3.8
+    P3p:
+    - CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"
+    Expires:
+    - Mon, 1 Jan 2001 00:00:00 GMT
+    Cache-Control:
+    - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+    Pragma:
+    - no-cache
+    Set-Cookie:
+    - d3ed202800a61c3f5449e3625970d7c8=c83b47a954139d1a3ddf6aa4814d243a; path=/
+    - ja_purity_tpl=ja_purity; expires=Sun, 03-Dec-2017 16:02:40 GMT; path=/
+    Last-Modified:
+    - Tue, 13 Dec 2016 16:02:41 GMT
+    Vary:
+    - User-Agent,Accept-Encoding
+    Content-Length:
+    - '6116'
+    Content-Type:
+    - text/html; charset=utf-8
+  body:
+    encoding: ASCII-8BIT
+  http_version: 
+recorded_at: Tue, 13 Dec 2016 16:02:48 GMT
