@@ -27,7 +27,7 @@ class MemberPage < Scraped::HTML
   end
 
   field :name do
-    role_and_name.last
+    role_and_name.last.sub('Hon. ','')
   end
 
   field :given_name do
