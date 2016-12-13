@@ -22,15 +22,66 @@ def unbracket(str)
   return cap.captures 
 end
 
-def datefrom(date)
-  Date.parse(date).to_s
-end
-
 class MembersPage < Scraped::HTML
   field :member_urls do
     noko.css('div#ja-content td a[href*="view=article"]/@href').map(&:text).uniq.map do |link|
       URI.join(url, link).to_s
     end
+  end
+end
+
+class MemberPage < Scraped::HTML
+  field :id do
+    url.to_s[%r{id=(\d+)}, 1]
+  end
+
+  field :role do
+    # TODO: transform this into a constituency
+    role_and_name.first
+  end
+
+  field :name do
+    role_and_name.last
+  end
+
+  field :given_name do
+    noko.xpath('.//strong[contains(.,"Given Name")]/following::text()').first.text.strip
+  end
+
+  field :family_name do
+    noko.xpath('.//strong[contains(.,"Surname")]/following::text()').first.text.strip
+  end
+
+  field :birth_date do
+    # Some members have "Date of Birth" some have "Birth" (sometimes with the B in a separate span)
+    datefrom(noko.xpath('.//strong[contains(.,"irth")]/following::text()').first.parent.text.strip)
+  end
+
+  field :party do
+    noko.xpath('.//strong[contains(.,"Party")]/following::text()').first.text.strip
+  end
+
+  field :email do
+    # TODO: ExecJS this
+    noko.xpath('.//strong[contains(.,"Email")]/following::script').first.text.strip
+  end
+
+  field :term do
+    2011
+  end
+
+  field :source do
+    url.to_s
+  end
+
+  private
+
+  def datefrom(date)
+    Date.parse(date).to_s
+  end
+
+  def role_and_name
+    noko.css('p').map { |p| p.text.gsub(/[[:space:]]+/, ' ').strip }.reject(&:empty?).take(2)
   end
 end
 
@@ -45,22 +96,8 @@ def scrape_list(url)
 end
 
 def scrape_mp(url)
-  # warn "Getting #{url}"
-  noko = noko_for(url).css('div.article-content')
-  (role, name) = noko.css('p').map { |p| p.text.gsub(/[[:space:]]+/, ' ').strip }.reject(&:empty?).take(2)
-  data = { 
-    id: url.to_s[%r{id=(\d+)}, 1],
-    role: role,
-    name: name,
-    given_name: noko.xpath('.//strong[contains(.,"Given Name")]/following::text()').first.text.strip,
-    family_name: noko.xpath('.//strong[contains(.,"Surname")]/following::text()').first.text.strip,
-    # Some members have "Date of Birth" some have "Birth" (sometimes with the B in a separate span)
-    birth_date: datefrom(noko.xpath('.//strong[contains(.,"irth")]/following::text()').first.parent.text.strip),
-    party: noko.xpath('.//strong[contains(.,"Party")]/following::text()').first.text.strip,
-    email: noko.xpath('.//strong[contains(.,"Email")]/following::script').first.text.strip,
-    term: 2011,
-    source: url.to_s,
-  }
+  page = MemberPage.new(response: Scraped::Request.new(url: url).response)
+  data = page.to_h
 
   if data[:role][/ELECTED MEMBER FOR (.*)/]
     data.delete :role
