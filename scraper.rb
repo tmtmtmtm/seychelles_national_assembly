@@ -11,12 +11,6 @@ require 'scraperwiki'
 require 'open-uri/cached'
 OpenURI::Cache.cache_path = '.cache'
 
-def unbracket(str)
-  return ['Independent', 'Independent'] if str.empty?
-  cap = str.match(/^(.*?)\s*\((.*?)\)\s*$/) or return [str, str]
-  return cap.captures 
-end
-
 class MembersPage < Scraped::HTML
   field :member_urls do
     noko.css('div#ja-content td a[href*="view=article"]/@href').map(&:text).uniq.map do |link|
