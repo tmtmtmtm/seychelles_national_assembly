@@ -8,8 +8,9 @@ require 'pry'
 require 'scraped'
 require 'scraperwiki'
 
-require 'open-uri/cached'
-OpenURI::Cache.cache_path = '.cache'
+# require 'open-uri/cached'
+# OpenURI::Cache.cache_path = '.cache'
+require 'scraped_page_archive/open-uri'
 
 class MembersPage < Scraped::HTML
   field :member_urls do
