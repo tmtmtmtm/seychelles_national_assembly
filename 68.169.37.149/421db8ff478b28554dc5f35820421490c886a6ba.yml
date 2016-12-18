@@ -18,7 +18,7 @@ response:
     message: OK
   headers:
     Date:
-    - Tue, 13 Dec 2016 16:02:35 GMT
+    - Sun, 18 Dec 2016 16:29:11 GMT
     Server:
     - Apache/2.2.21 (Unix) mod_ssl/2.2.21 OpenSSL/0.9.8e-fips-rhel5 DAV/2 mod_bwlimited/1.4
       mod_perl/2.0.5 Perl/v5.8.8
@@ -33,10 +33,10 @@ response:
     Pragma:
     - no-cache
     Set-Cookie:
-    - d3ed202800a61c3f5449e3625970d7c8=f555f1860394c405307d6d64c14baad9; path=/
-    - ja_purity_tpl=ja_purity; expires=Sun, 03-Dec-2017 16:02:35 GMT; path=/
+    - d3ed202800a61c3f5449e3625970d7c8=d3547838eada841d7811141f0fd48b0c; path=/
+    - ja_purity_tpl=ja_purity; expires=Fri, 08-Dec-2017 16:29:11 GMT; path=/
     Last-Modified:
-    - Tue, 13 Dec 2016 16:02:35 GMT
+    - Sun, 18 Dec 2016 16:29:11 GMT
     Vary:
     - User-Agent,Accept-Encoding
     Content-Length:
@@ -46,4 +46,4 @@ response:
   body:
     encoding: ASCII-8BIT
   http_version: 
-recorded_at: Tue, 13 Dec 2016 16:02:43 GMT
+recorded_at: Sun, 18 Dec 2016 16:29:19 GMT
