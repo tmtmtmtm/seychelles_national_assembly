@@ -73,7 +73,8 @@ class MemberPage < Scraped::HTML
   private
 
   def datefrom(date)
-    Date.parse(date).to_s
+    stripped_date = date.sub(/^.*irth: /, '').sub(',', '').sub(/(\d)(?:st|nd|rd|th) /, '\\1 ')
+    Date.strptime(stripped_date, '%d %B %Y').to_s rescue nil
   end
 
   def role_and_name
