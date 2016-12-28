@@ -18,7 +18,7 @@ response:
     message: Moved Permanently
   headers:
     Date:
-    - Tue, 27 Dec 2016 01:31:41 GMT
+    - Wed, 28 Dec 2016 08:05:08 GMT
     Server:
     - Apache/2.0.52 (Red Hat)
     Location:
@@ -30,4 +30,4 @@ response:
   body:
     encoding: UTF-8
   http_version: 
-recorded_at: Tue, 27 Dec 2016 01:31:41 GMT
+recorded_at: Wed, 28 Dec 2016 08:05:08 GMT
