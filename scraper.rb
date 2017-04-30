@@ -89,6 +89,7 @@ class MemberPage < Scraped::HTML
   end
 end
 
+ScraperWiki.sqliteexecute('DROP TABLE data') rescue nil
 url = 'http://69.36.179.203/index.php?option=com_content&view=section&id=14&Itemid=27'
 page = MembersPage.new(response: Scraped::Request.new(url: url).response)
 page.member_urls.each do |link|
