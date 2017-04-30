@@ -2,9 +2,6 @@
 # encoding: utf-8
 # frozen_string_literal: true
 
-require 'date'
-require 'nokogiri'
-require 'open-uri'
 require 'pry'
 require 'scraped'
 require 'scraperwiki'
@@ -14,86 +11,46 @@ require 'scraperwiki'
 require 'scraped_page_archive/open-uri'
 
 class MembersPage < Scraped::HTML
-  field :member_urls do
-    noko.css('div#ja-content td a[href*="view=article"]/@href').map(&:text).uniq.map do |link|
-      URI.join(url, link).to_s
+  field :members do
+    noko.css('.pf-content table tr').map do |tr|
+      fragment(tr => MemberRow).to_h
     end
   end
 end
 
-class MemberPage < Scraped::HTML
-  require 'execjs'
-
+class MemberRow < Scraped::HTML
   field :id do
-    url.to_s[/id=(\d+)/, 1]
+    File.basename(image, '.*').sub(/-\d+x\d+/,'')
   end
 
   field :name do
-    role_and_name.last.sub('Hon. ', '')
+    # nasty hack to cope with broken layout for Terence Mondon (no image)
+    return noko.xpath('*[contains(text(), "Hon.")]').text.gsub('Hon.', '').tidy if image.to_s.empty?
+    noko.css('.wp-caption-text').text.gsub('Hon. ', '').tidy
   end
 
-  field :given_name do
-    noko.xpath('.//strong[contains(.,"Given Name")]/following::text()').first.text.strip
-  end
-
-  field :family_name do
-    noko.xpath('.//strong[contains(.,"Surname")]/following::text()').first.text.strip
-  end
-
-  field :birth_date do
-    # Some members have "Date of Birth" some have "Birth" (sometimes with the B in a separate span)
-    datefrom(noko.xpath('.//strong[contains(.,"irth")]/following::text()').first.parent.text.strip)
+  # TODO: extract the constituency for Pillay et al.
+  field :constituency do
+    noko.css('h4').text.tidy
   end
 
   field :party do
-    noko.xpath('.//strong[contains(.,"Party")]/following::text()').first.text.strip
+    noko.css('p').map(&:text).find { |t| t.include? 'Party: ' }.to_s.gsub('Party: ', '').tidy
   end
 
-  field :email do
-    return if raw_email.to_s.empty?
-    js = "var retval = ''; " + raw_email.split('--')[1] + ";\nreturn retval"
-    js.gsub!('document.write', 'retval += ')
-    mailto = ExecJS.exec(js)
-    Nokogiri::HTML(mailto).css('a/@href').text.sub('mailto:', '')
-  end
-
-  field :term do
-    2011
+  field :image do
+    noko.css('img/@src').text
   end
 
   field :source do
     url.to_s
   end
-
-  field :constituency do
-    return 'Proportionally Elected' unless role[/ELECTED MEMBER FOR (.*)/]
-    Regexp.last_match(1).sub('THE DISTRICT OF ', '')
-  end
-
-  private
-
-  def datefrom(date)
-    Date.parse(date).to_s
-  end
-
-  def role_and_name
-    noko.css('p').map { |p| p.text.gsub(/[[:space:]]+/, ' ').strip }.reject(&:empty?).take(2)
-  end
-
-  def role
-    role_and_name.first
-  end
-
-  def raw_email
-    noko.xpath('.//strong[contains(.,"Email")]/following::script').first.text.strip
-  end
 end
 
-ScraperWiki.sqliteexecute('DROP TABLE data') rescue nil
-url = 'http://69.36.179.203/index.php?option=com_content&view=section&id=14&Itemid=27'
+url = 'http://nationalassembly.sc/index.php/your-parliamentarians/'
 page = MembersPage.new(response: Scraped::Request.new(url: url).response)
-page.member_urls.each do |link|
-  data = MemberPage.new(response: Scraped::Request.new(url: link).response).to_h
-  ScraperWiki.save_sqlite(%i[id term], data)
-  puts data
-end
+data = page.members
+
+data.each { |r| puts r.reject { |_, v| v.to_s.empty? }.sort_by { |k, _| k }.to_h } if ENV['MORPH_DEBUG']
+ScraperWiki.sqliteexecute('DROP TABLE data') rescue nil
+ScraperWiki.save_sqlite(%i[id], data)
