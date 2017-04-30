@@ -93,6 +93,6 @@ url = 'http://69.36.179.203/index.php?option=com_content&view=section&id=14&Item
 page = MembersPage.new(response: Scraped::Request.new(url: url).response)
 page.member_urls.each do |link|
   data = MemberPage.new(response: Scraped::Request.new(url: link).response).to_h
-  ScraperWiki.save_sqlite([:id, :term], data)
+  ScraperWiki.save_sqlite(%i[id term], data)
   puts data
 end
