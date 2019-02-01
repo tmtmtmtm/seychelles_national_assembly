@@ -18,7 +18,7 @@ response:
     message: OK
   headers:
     Date:
-    - Thu, 24 Jan 2019 14:56:51 GMT
+    - Fri, 01 Feb 2019 14:04:43 GMT
     Server:
     - Apache/2.2.21 (Unix) mod_ssl/2.2.21 OpenSSL/0.9.8e-fips-rhel5 DAV/2 mod_bwlimited/1.4
       mod_perl/2.0.5 Perl/v5.8.8
@@ -27,19 +27,19 @@ response:
     Link:
     - "<http://nationalassembly.sc/?p=2990>; rel=shortlink"
     Set-Cookie:
-    - _wp_session=f5dcdde4e89ac27b96925e09589babdc%7C%7C1548343612%7C%7C1548343252;
-      expires=Thu, 24-Jan-2019 15:26:52 GMT; path=/
+    - _wp_session=72ffb84d71c8b00206b9f602ecb1dae3%7C%7C1549031684%7C%7C1549031324;
+      expires=Fri, 01-Feb-2019 14:34:44 GMT; path=/
     Cache-Control:
     - max-age=0
     Expires:
-    - Thu, 24 Jan 2019 14:56:51 GMT
+    - Fri, 01 Feb 2019 14:04:43 GMT
     Vary:
     - User-Agent,Accept-Encoding
     Content-Length:
-    - '14369'
+    - '14263'
     Content-Type:
     - text/html; charset=UTF-8
   body:
     encoding: ASCII-8BIT
   http_version: 
-recorded_at: Thu, 24 Jan 2019 14:56:40 GMT
+recorded_at: Fri, 01 Feb 2019 14:04:33 GMT
