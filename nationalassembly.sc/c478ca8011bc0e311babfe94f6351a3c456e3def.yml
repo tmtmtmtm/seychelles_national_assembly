@@ -18,18 +18,18 @@ response:
     message: OK
   headers:
     Date:
-    - Sat, 30 Mar 2019 01:02:55 GMT
+    - Sun, 31 Mar 2019 08:16:53 GMT
     Server:
     - Apache/2.4.38 (cPanel) OpenSSL/1.0.2r mod_bwlimited/1.4
     Link:
     - "<http://nationalassembly.sc/?p=2990>; rel=shortlink"
     Set-Cookie:
-    - _wp_session=bc529eb31547e9c18f2d78d1e4bd0a76%7C%7C1553909576%7C%7C1553909216;
-      expires=Sat, 30-Mar-2019 01:32:56 GMT; Max-Age=1800; path=/
+    - _wp_session=b35e940e10519a338117f01a8ed4673e%7C%7C1554022013%7C%7C1554021653;
+      expires=Sun, 31-Mar-2019 08:46:53 GMT; Max-Age=1800; path=/
     Cache-Control:
     - max-age=0
     Expires:
-    - Sat, 30 Mar 2019 01:02:55 GMT
+    - Sun, 31 Mar 2019 08:16:53 GMT
     Vary:
     - Accept-Encoding,User-Agent
     Content-Length:
@@ -39,4 +39,4 @@ response:
   body:
     encoding: ASCII-8BIT
   http_version: 
-recorded_at: Sat, 30 Mar 2019 01:02:57 GMT
+recorded_at: Sun, 31 Mar 2019 08:16:55 GMT
