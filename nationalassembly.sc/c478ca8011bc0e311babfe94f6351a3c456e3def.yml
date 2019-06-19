@@ -18,7 +18,7 @@ response:
     message: OK
   headers:
     Date:
-    - Tue, 18 Jun 2019 12:03:55 GMT
+    - Wed, 19 Jun 2019 08:47:50 GMT
     Server:
     - Apache/2.4.39 (cPanel) OpenSSL/1.0.2r mod_bwlimited/1.4
     Link:
@@ -26,7 +26,7 @@ response:
     Cache-Control:
     - max-age=0
     Expires:
-    - Tue, 18 Jun 2019 12:03:55 GMT
+    - Wed, 19 Jun 2019 08:47:50 GMT
     Vary:
     - Accept-Encoding,User-Agent
     Content-Length:
@@ -36,4 +36,4 @@ response:
   body:
     encoding: ASCII-8BIT
   http_version: 
-recorded_at: Tue, 18 Jun 2019 12:03:56 GMT
+recorded_at: Wed, 19 Jun 2019 08:47:51 GMT
